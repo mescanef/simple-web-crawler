@@ -1,0 +1,8 @@
+**/venv
+**/*.tox
+**/*.egg-info
+**/*.egg
+**/*.pyc
+**/*.DS_Store
+**/build
+**/dist
