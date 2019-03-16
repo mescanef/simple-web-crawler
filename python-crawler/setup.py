@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 
 from setuptools import setup
@@ -30,7 +32,7 @@ setup_args = {
         'pyasn1==0.4.5'
     ],
     'entry_points': {
-        'console_scripts': ['simple-web-crawler=simple_web_crawler.crawler:main']
+        'console_scripts': ['simple-web-crawler=simple_web_crawler.run:main']
     },
 }
 
