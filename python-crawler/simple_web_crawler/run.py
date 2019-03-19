@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import argparse, os
 
 from crawler import SimpleWebCrawler
 from scrapy.crawler import CrawlerProcess
@@ -16,6 +16,18 @@ def main():
     # Set the SCRAPY_SETTINGS_MODULE variable
     os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
     settings = get_project_settings()
+
+    # parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--domain', help='Specify the domain name to crawle.', required=True)
+    parser.add_argument('-l', '--log', help='Specify the log file for crawled data.', required=False)
+    args = parser.parse_args()
+
+    logFilePath = args.log
+    allowedDomain = args.domain
+    startUrl = 'http://{domain}'.format(domain=allowedDomain)
+
+    # run the crawler process
     process = CrawlerProcess(settings)
-    process.crawl(SimpleWebCrawler(), allowed_domains=['example.com'], start_urls=['http://example.com'])
+    process.crawl(SimpleWebCrawler(), allowed_domains=[allowedDomain], start_urls=[startUrl], log_file_path=logFilePath)
     process.start()

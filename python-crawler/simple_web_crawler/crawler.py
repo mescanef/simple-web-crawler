@@ -13,7 +13,15 @@ class SimpleWebCrawler(scrapy.Spider):
     name = 'generic'
 
     currentTime = time.mktime(time.gmtime())
+    outFile = '/tmp/simple-web-crawler-{time}.log'.format(time=currentTime)
     commonGlobalUrlList = list()
+
+
+    def __init__(self, *args, **kwargs):
+        super(SimpleWebCrawler, self).__init__(*args, **kwargs)
+        logFilePath = kwargs.get('log_file_path')
+        if logFilePath is not None:
+            self.outFile = logFilePath
 
     def normalizeUrl(self, inList, uri):
         """ Helper method to perform a URL normalization.
@@ -32,7 +40,6 @@ class SimpleWebCrawler(scrapy.Spider):
             if not inList[position].startswith(('http://', 'https://')):
                 inList[position] = rootUrl + inList[position]
         return inList
-
 
     def parse(self, response):
         """ Scrapy's parse method parses the received response from the entity.
@@ -117,7 +124,6 @@ class SimpleWebCrawler(scrapy.Spider):
 
     def writeToDisk(self, inList):
         """ Writes the list of url content into the file. """
-        fname = '/tmp/simple-web-crawler-{time}.log'.format(time=self.currentTime)
-        with open(fname, 'a') as f:
+        with open(self.outFile, 'a') as f:
             for url in inList:
                 f.write("%s\n" %url.encode("utf-8"))
