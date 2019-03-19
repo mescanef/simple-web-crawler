@@ -31,18 +31,23 @@ class SimpleWebCrawler(scrapy.Spider):
         scheme = '{uri.scheme}://'.format(uri=uri)
         netloc = '{uri.netloc}/'.format(uri=uri)
         rootUrl = '{scheme}{netloc}'.format(scheme=scheme, netloc=netloc)
-        for position, _ in enumerate(inList):
-            if inList[position].startswith('mailto'):
+        for position, url in enumerate(inList):
+            # remove all strings starting with 'mailto'
+            if url.startswith('mailto'):
                 inList.remove(position)
                 continue
-            if inList[position].startswith('//'):
-                inList[position] = inList[position].replace('//', scheme)
-                continue
-            if re.search('^("|\\\| |/)', inList[position]):
-                inList[position] = inList[position].strip(' /\\"')
-                continue
-            if not inList[position].startswith(('http://', 'https://')):
-                inList[position] = rootUrl + inList[position]
+
+            fixedUrl = url
+            if fixedUrl.startswith('//'):
+                fixedUrl = fixedUrl.replace('//', scheme)
+            if re.search('^("|\\\| |/)', fixedUrl):
+                fixedUrl = fixedUrl.strip(' /\\"')
+            if not fixedUrl.startswith(('http://', 'https://')):
+                fixedUrl = rootUrl + fixedUrl
+            # check if the string in fixedUrl is different than in url variable.
+            # if different, then assign it to the list's element.
+            if fixedUrl != url:
+                inList[position] = fixedUrl
         return inList
 
     def parse(self, response):
