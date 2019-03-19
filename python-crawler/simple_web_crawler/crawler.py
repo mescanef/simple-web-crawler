@@ -8,6 +8,8 @@ from urlparse import urlparse
 
 import scrapy
 
+from scrapy_splash import SplashRequest
+
 
 class SimpleWebCrawler(scrapy.Spider):
     """A definition of a Scrapy spider. It holds the crawler's logic on how exactly parse the crawled web page."""
@@ -49,6 +51,11 @@ class SimpleWebCrawler(scrapy.Spider):
             if fixedUrl != url:
                 inList[position] = fixedUrl
         return inList
+
+    def start_requests(self):
+        """From here the scraping of URLs begins."""
+        for url in self.start_urls:
+            yield SplashRequest(url, self.parse)
 
     def parse(self, response):
         """Scrapy's parse method parses the received response from the entity.
@@ -123,7 +130,7 @@ class SimpleWebCrawler(scrapy.Spider):
                 set(self.commonGlobalUrlList + localCommonUrlList))
             # for evey found link perform url scraping
             for link in localCommonUrlList:
-                yield scrapy.Request(link)
+                yield SplashRequest(link)
 
     def closed(self, reason):
         """When crawling is done write the list of links into the file."""

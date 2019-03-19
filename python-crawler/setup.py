@@ -27,6 +27,7 @@ setup_args = {
     ],
     'install_requires': [
         'Scrapy==1.6',
+        'scrapy-splash==0.7.2',
         'pyasn1==0.4.5'
     ],
     'entry_points': {
