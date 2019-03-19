@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import sys
+import os, sys
 
 from setuptools import setup
-from os.path import join, dirname
-
-with open(join(dirname(__file__), 'simple_web_crawler/VERSION')) as f:
-    version = f.read().strip()
 
 setup_args = {
     'name': 'simple-web-crawler',
-    'version': version,
+    'version': '0.1.0',
     'url': 'https://github.com/mescanef/simple-web-crawler',
     'description': 'A simple Web Crawler',
     'author': 'Mateusz Matuszkowiak',
@@ -21,6 +17,7 @@ setup_args = {
     'include_package_data': True,
     'classifiers': [
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Development Status :: 4 - Beta',
