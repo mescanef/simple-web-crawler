@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Simple Web Crawlers' config parameters.
+"""Simple Web Crawlers' config parameters.
 
 This file holds the selected Scrapy parameters.
 
