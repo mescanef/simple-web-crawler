@@ -102,12 +102,11 @@ class SimpleWebCrawler(scrapy.Spider):
         except BaseException:
             pass
 
-        # parse inline css
-        matchUrlPattern = 'url\((.*?)\)'
+        # parse inline css for URLs
         extractUrlPattern = '([("\'])+(?P<url>[^)"\']+)'
         tmpInlineStyleUrls = list()
         try:
-            urlList = response.xpath('//*[re:match(@style, matchUrlPattern)]/@style').extract()
+            urlList = response.xpath('//*[re:match(@style, "url\((.*?)\)")]/@style').extract()
             for link in urlList:
                 item = re.search(extractUrlPattern, link)
                 if item is not None:
