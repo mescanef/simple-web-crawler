@@ -4,7 +4,8 @@
 This file holds the selected Scrapy parameters.
 
 """
-USER_AGENT = 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 \
+Firefox/64.0'
 COOKIES_ENABLED = False
 DOWNLOAD_DELAY = 2
 RANDOMIZE_DOWNLOAD_DELAY = False
@@ -17,7 +18,8 @@ ROBOTSTXT_OBEY = False
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
-    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+    'scrapy.downloadermiddlewares.httpcompression.'
+    + 'HttpCompressionMiddleware': 810,
 }
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,

@@ -12,13 +12,18 @@ from scrapy_splash import SplashRequest
 
 
 class SimpleWebCrawler(scrapy.Spider):
-    """A definition of a Scrapy spider. It holds the crawler's logic on how exactly parse the crawled web page."""
+    """A definition of a Scrapy spider.
+
+    It holds the crawler's logic on how exactly parse the crawled web page.
+
+    """
 
     name = 'generic'
 
     currentWorkingDir = os.getcwd()
     currentTime = time.mktime(time.gmtime())
-    outFile = '{dir}/simple-web-crawler-{time}.log'.format(dir=currentWorkingDir, time=currentTime)
+    outFile = '{dir}/simple-web-crawler-{time}.log'.format(
+        dir=currentWorkingDir, time=currentTime)
     commonGlobalUrlList = list()
 
     def __init__(self, *args, **kwargs):
@@ -46,8 +51,8 @@ class SimpleWebCrawler(scrapy.Spider):
                 fixedUrl = fixedUrl.strip(' /\\"')
             if not fixedUrl.startswith(('http://', 'https://')):
                 fixedUrl = rootUrl + fixedUrl
-            # check if the string in fixedUrl is different than in url variable.
-            # if different, then assign it to the list's element.
+            # check if the string in fixedUrl is different than in url
+            # variable. if different, then assign it to the list's element.
             if fixedUrl != url:
                 inList[position] = fixedUrl
         return inList
@@ -58,9 +63,10 @@ class SimpleWebCrawler(scrapy.Spider):
             yield SplashRequest(url, self.parse)
 
     def parse(self, response):
-        """Scrapy's parse method parses the received response from the entity.
+        """This method parses the received response from an entity.
 
-        Parse result - a list of found URLs on a web site - is stored in the file.
+        Parse result - a list of found URLs on a web site - is stored
+        in the file.
         """
         # declare local common list which holds temporary URLs
         localCommonUrlList = list()
@@ -74,7 +80,10 @@ class SimpleWebCrawler(scrapy.Spider):
         # find links within href=""
         try:
             # do not store links which starts with "#" or "mailto"
-            urlList = response.xpath('/html//a[starts-with(@href, "") and not(starts-with(@href, "#")) and not(contains(@href, "mailto"))]/@href').extract()
+            urlList = response.xpath('/html//a[starts-with(@href, "") \
+                                     and not(starts-with(@href, "#")) \
+                                     and not(contains(@href, "mailto"))]/@href'
+                                     ).extract()
             # normalize list
             urlList = self.normalizeUrl(urlList, uri)
             # merge list with local common
@@ -84,7 +93,8 @@ class SimpleWebCrawler(scrapy.Spider):
 
         # find css links
         try:
-            urlList = response.xpath('/html/head/link[contains(@href, "")]/@href').extract()
+            urlList = response.xpath('/html/head/link[contains(@href, "")]\
+                                     /@href').extract()
             # normalize list
             urlList = self.normalizeUrl(urlList, uri)
             # merge with common list
@@ -106,7 +116,8 @@ class SimpleWebCrawler(scrapy.Spider):
         extractUrlPattern = '([("\'])+(?P<url>[^)"\']+)'
         tmpInlineStyleUrls = list()
         try:
-            urlList = response.xpath('//*[re:match(@style, "url\((.*?)\)")]/@style').extract()
+            urlList = response.xpath('//*[re:match(@style, "url\((.*?)\)")]\
+                                     /@style').extract()
             for link in urlList:
                 item = re.search(extractUrlPattern, link)
                 if item is not None:
