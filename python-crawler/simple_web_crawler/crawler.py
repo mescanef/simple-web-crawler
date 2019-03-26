@@ -24,7 +24,6 @@ class SimpleWebCrawler(scrapy.Spider):
     currentTime = time.mktime(time.gmtime())
     outFile = '{dir}/simple-web-crawler-{time}.log'.format(
         dir=currentWorkingDir, time=currentTime)
-    commonGlobalUrlList = list()
 
     def __init__(self, *args, **kwargs):
         """The crawlers constructor method."""
@@ -135,21 +134,25 @@ class SimpleWebCrawler(scrapy.Spider):
         if len(localCommonUrlList) > 0:
             # remove duplicates
             localCommonUrlList = list(set(localCommonUrlList))
-            # merge with global list
-            self.commonGlobalUrlList = list(
-                set(self.commonGlobalUrlList + localCommonUrlList))
+            # write local list of URLs into a file (in append mode)
+            self.writeToDisk(localCommonUrlList, 'a+')
             # for evey found link perform url scraping
             for link in localCommonUrlList:
                 yield SplashRequest(link)
 
     def closed(self, reason):
         """When crawling is done write the list of links into the file."""
-        # remove duplicates if any
-        self.commonGlobalUrlList = list(set(self.commonGlobalUrlList))
-        self.writeToDisk(self.commonGlobalUrlList)
+        # read outFile's content and find possible duplicates.
+        fileExists = os.path.isfile(self.outFile)
+        if fileExists:
+            fileContent = list()
+            with open(self.outFile, 'r') as f:
+                fileContent = list(set(f.read().splitlines()))
+            if len(fileContent) > 0:
+                self.writeToDisk(fileContent, 'w')
 
-    def writeToDisk(self, inList):
+    def writeToDisk(self, inList, writeMode):
         """Writes the list of url content into the file."""
-        with open(self.outFile, 'w') as f:
+        with open(self.outFile, writeMode) as f:
             for url in inList:
                 f.write("%s\n" % url.encode("utf-8"))
