@@ -48,6 +48,5 @@ http://www.iana.org/domains/example
 - Implement parsing of the external CSS, in order to extract links from *background-image*
   property or similar, by taking content of *url('static/example.png')*,
 - Better exception handling,
-- Write parsed links in steps, not all at once after crawler has finished its work,
 - Improved final list of URls - links should be normalized against more complex situations,
 - Unit test cases.
