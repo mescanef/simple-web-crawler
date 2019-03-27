@@ -59,7 +59,7 @@ class SimpleWebCrawler(scrapy.Spider):
     def start_requests(self):
         """From here the scraping of URLs begins."""
         for url in self.start_urls:
-            yield SplashRequest(url, self.parse)
+            yield SplashRequest(url, self.parse, args={'wait': 10})
 
     def parse(self, response):
         """This method parses the received response from an entity.
@@ -75,7 +75,6 @@ class SimpleWebCrawler(scrapy.Spider):
         uri = urlparse(response.url)
 
         print('Crawler in progress...\n')
-
         # find links within href=""
         try:
             # do not store links which starts with "#" or "mailto"
@@ -138,7 +137,7 @@ class SimpleWebCrawler(scrapy.Spider):
             self.writeToDisk(localCommonUrlList, 'a+')
             # for evey found link perform url scraping
             for link in localCommonUrlList:
-                yield SplashRequest(link)
+                yield SplashRequest(link, args={'wait': 10})
 
     def closed(self, reason):
         """When crawling is done write the list of links into the file."""
