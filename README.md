@@ -35,12 +35,26 @@ Now with all that dependencies, run the crawler:
 $ venv/bin/simple-web-crawler -d example.com
 ```
 
-Output with all crawled links will be present in the *log* file, which by default is 
+Output with all crawled links will be present in the `log` file, which by default is
 written into the current working directory. Example:
 
 ```
 $ cat simple-web-crawler-1553059123.0.log
 http://www.iana.org/domains/example
+```
+
+### Tests
+
+In order to run tests, the most efficient way is to use `tox` as it will execute:
+- `flake8`,
+- `pycodestyle`,
+- `bandit`
+against the package sources and, in the end, will execute the `py.test` to run the
+unit tests.
+Running tests via `tox` is straightforward:
+
+```
+$ cd python-crawler && tox
 ```
 
 ### TODOs
@@ -49,4 +63,4 @@ http://www.iana.org/domains/example
   property or similar, by taking content of *url('static/example.png')*,
 - Better exception handling,
 - Improved final list of URls - links should be normalized against more complex situations,
-- Unit test cases.
+- Integration test cases.
