@@ -74,7 +74,6 @@ class SimpleWebCrawler(scrapy.Spider):
         # get request's root URL
         uri = urlparse(response.url)
 
-        print('Crawler in progress...\n')
         # find links within href=""
         try:
             # do not store links which starts with "#" or "mailto"
@@ -139,7 +138,7 @@ class SimpleWebCrawler(scrapy.Spider):
             for link in localCommonUrlList:
                 yield SplashRequest(link, args={'wait': 10})
 
-    def closed(self, reason):
+    def closed(self):
         """When crawling is done write the list of links into the file."""
         # read outFile's content and find possible duplicates.
         fileExists = os.path.isfile(self.outFile)
