@@ -1,5 +1,7 @@
 # simple-web-crawler
 
+[![CircleCI](https://circleci.com/gh/mescanef/simple-web-crawler/tree/master.svg?style=svg)](https://circleci.com/gh/mescanef/simple-web-crawler/tree/master)
+
 Goal of this project is to have implemented a Simple Web Crawler as a PoC by using few 
 different technologies (Python+Scrapy, Java+htmlUnit, ...). 
 For now only python-based implementation is available, which uses Scrapy and Splash 
