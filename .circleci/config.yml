@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  toxrun:
+      working_directory: ~/python-crawler
+      docker:
+        - image: python:2.7
+      steps:
+        - checkout
+        - run: 
+            command: |
+              pip install tox 
+              tox
+workflows:
+  version: 2
+  python-crawler:
+    jobs:
+      - toxrun
